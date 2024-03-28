@@ -1,19 +1,32 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { loginUser } from '../Redux/actions/usersActions';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    dispatch(loginUser({ username, password }));
+   const user =  await dispatch(loginUser({ username, password }));
+   if(user===true){
+    if(isAuthenticated){
+      navigate("/profile");
+  
+    }
+    else{
+      alert("Invalid username or password")
+    }
+   }
     setUsername('');
     setPassword('');
   };
+  
 
   return (
     <Container>

@@ -61,6 +61,7 @@ app.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
+  
     if (!user) {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
@@ -69,7 +70,7 @@ app.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
     const token = jwt.sign({ userId: user._id }, 'secret_key'); // Change to a secure secret key
-    res.json({ token });
+    res.json({ token,username });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

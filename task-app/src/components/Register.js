@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../Redux/actions/usersActions';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-
+import { useNavigate } from "react-router-dom";
 function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(registerUser({ username, password }));
+    navigate("/login");
     setUsername('');
     setPassword('');
   };
